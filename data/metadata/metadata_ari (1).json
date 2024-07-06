@@ -1,0 +1,39 @@
+{
+  "tag": "ari",
+  "full_name": "ARI",
+  "url": "https://hbiostat.org/data/repo/ari.zip",
+  "description": "Dataset containing information about patients with Acute Respiratory Infection (ARI)",
+  "num_rows": 11,
+  "num_columns": 4,
+  "column_names": ["Variables", "Missing_Data", "Data_Type", "Unique_Values"],
+  "column_data_types": ["character", "numeric", "character", "integer"],
+  "creation_date": "2024-06-20",
+  "source_file": "ari.csv",
+  "tasks": [
+    {
+      "tag": "task_1",
+      "outcome_variable": "pneumonia_or_worse",
+      "type": "diagnosis",
+      "features": ["age", "coh", "rr"]
+    },
+    {
+      "tag": "task_2",
+      "outcome_variable": "pneumonia_or_worse",
+      "type": "diagnosis",
+      "features": ["age", "coh", "rr", "lgth", "hdb", "hfa", "hfe", "apn"]
+    },
+    {
+      "tag": "task_3",
+      "outcome_variable": "death",
+      "type": "prognosis",
+      "features": ["age", "coh", "rr"]
+    },
+    {
+      "tag": "task_4",
+      "outcome_variable": "death",
+      "type": "prognosis",
+      "features": ["age", "coh", "rr", "lgth", "hdb", "hfa", "hfe", "apn"]
+    }
+  ],
+  "test_environment": "env"
+}

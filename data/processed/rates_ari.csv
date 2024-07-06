@@ -1,0 +1,5 @@
+"country","nr_outcome_pneumonia","nr_outcome_death","nr_rows_country","nr_rest_dataset","outcome_perc_pneumonia","outcome_perc_death","country_perc"
+"Ethiopia",558,88,816,3736,"68.38%","10.78%","17.93%"
+"Gambia",495,64,695,3857,"71.22%","9.21%","15.27%"
+"Manila",546,82,873,3679,"62.54%","9.39%","19.18%"
+"Papua New Guinea",741,15,2168,2384,"34.18%","0.69%","47.63%"

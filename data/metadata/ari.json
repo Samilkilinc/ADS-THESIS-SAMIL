@@ -1,0 +1,12 @@
+
+{"tag": "ari",
+"full_name": "ARI"
+"url": "https://hbiostat.org/data/repo/ari.zip"
+"tasks": [
+{"outcome_variable": "pneumonia_or_worse",
+ "type": "diagnosis",
+ "features": ["weight", "age", "rr"]
+}
+]
+}
+

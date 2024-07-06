@@ -1,0 +1,11 @@
+"Variables","Missing_Data","Data_Type","Unique_Values"
+"pneumonia_or_worse",0,"logical",2
+"coh",0,"factor",2
+"rr",0,"numeric",102
+"temp",0,"numeric",82
+"lgth",0,"numeric",436
+"hdb",0,"factor",2
+"age",0,"integer",91
+"hfa",0,"factor",4
+"hfe",0,"factor",2
+"apn",0,"factor",2

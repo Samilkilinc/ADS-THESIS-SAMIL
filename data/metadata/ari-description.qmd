@@ -1,0 +1,94 @@
+---
+title: "ari-description"
+format: html
+editor: visual
+---
+
+## description
+
+source: https://hbiostat.org/data/repo/ari
+
+goal: diagnosis (pneumonia_or_worse) or prognosis (death)
+
+outcome variable: pneumonia_or_worse / death
+
+outcome definition: cprot %in% c("Pneumonia", "Severe pneumonia", "Very severe disease") / dead %in% c("L", "P", "Y")
+
+environment: variable env - a shorthand notation for the values in variable country
+
+####TMP
+
+Based on the scientific publication on this dataset (STATISTICS IN MEDICINEStatist. Med. 17, 909 — 944 (1998)TUTORIAL IN BIOSTATISTICSDEVELOPMENT OF A CLINICAL PREDICTION MODELFOR AN ORDINAL OUTCOME:The World Health Organization Multicentre Study of Clinical Signsand Etiological Agents of Pneumonia, Sepsis and Meningitisin Young InfantsFRANK E. HARRELL, Jr.) There are 249 deaths in this dataset on all 4552 patients; using the variable `dead`, we see that codes L P and Y represent a death. So these are all coded as death
+
+```{r}
+suppressWarnings(library(data.table))
+ariraw <- fread(here::here('data', 'raw', 'ari.csv'))
+ariraw[, table(dead)]
+
+
+
+```
+
+####TMP
+
+### Selection of variables
+
+In our analysis, we aimed to ensure the reliability and completeness of the data used. During the initial examination of the dataset, we identified that some variables had a significant amount of missing data. Specifically, the variables **`weight`** and **`wbco`** were found to have substantial missing values, which could potentially compromise the robustness and validity of our analysis.
+
+Given this concern, we decided to exclude **`weight`** and **`wbco`** from our final dataset to maintain the integrity of our analysis.
+
+In our study, we carefully selected the variables based on their relevance to predicting serious bacterial infections, as detailed in the research by Murphy et al. (1999) published in The Pediatric Infectious Disease Journal. This foundational study, titled "Clinical prediction of serious bacterial infections in children with fever without a source," provides a robust framework for identifying key clinical indicators that can effectively predict the likelihood of severe bacterial infections.
+
+Below is a summary table of the selected variables, highlighting their respective data types and the number of unique values:
+
+```{r}
+
+summary_table_path <- here::here('data', 'processed', 'summary_table_ari.csv')
+# Load the RData file
+summary_table_ari <- read.csv(summary_table_path)
+print(summary_table_ari)
+```
+
+### Outcome rates per country
+
+```{r}
+# Import libraries
+suppressWarnings(library(knitr))
+suppressWarnings(library(dplyr))
+# Read data
+rates_path <- here::here('data', 'processed', 'processed_ari.csv')
+ari <- read.csv(rates_path)
+```
+
+```{r}
+rates_pneu <- ari %>% 
+  group_by(country) %>% 
+  summarise(
+    nr_pneumonia = sum(pneumonia_or_worse),
+    nr_rows_country = n(),
+    perc_pneumonia = paste0(round((nr_pneumonia / nr_rows_country) * 100, 2), '%'),
+    country_perc = paste0(round((nr_rows_country / nrow(ari)) * 100, 2), '%')
+  )
+print(rates_pneu)
+```
+
+```{r}
+rates_death <- ari %>% 
+  group_by(country) %>% 
+  summarise(
+    nr_outcome_death = sum(death),
+    nr_rows_country = n(),
+    outcome_perc_death = paste0(round((nr_outcome_death / nr_rows_country) * 100, 2), '%'),
+    country_perc = paste0(round((nr_rows_country / nrow(ari)) * 100, 2), '%')
+  )
+print(rates_death)
+```
+
+### Preliminary logistic regression analysis
+
+```{r}
+df <- read.csv(here::here("data", "processed", "processed_ari.csv"))
+xvars <- c("coh", "rr", "temp","lgth", "hdb", "age", "hfa", "hfe", "apn")
+
+summary(glm(reformulate(xvars, "pneumonia_or_worse"), family='binomial', data=df))
+```
